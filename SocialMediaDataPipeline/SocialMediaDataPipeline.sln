@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubCrawler", "GithubCraw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMediaConsole", "SocialMediaConsole\SocialMediaConsole.csproj", "{6431AC5A-82C1-4892-8FCD-91F978EF5AFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubTrigger", "GithubTrigger\GithubTrigger.csproj", "{F6DC5A9F-3C97-4794-9DC2-FE581F0E6649}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6431AC5A-82C1-4892-8FCD-91F978EF5AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6431AC5A-82C1-4892-8FCD-91F978EF5AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6431AC5A-82C1-4892-8FCD-91F978EF5AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6DC5A9F-3C97-4794-9DC2-FE581F0E6649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DC5A9F-3C97-4794-9DC2-FE581F0E6649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DC5A9F-3C97-4794-9DC2-FE581F0E6649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DC5A9F-3C97-4794-9DC2-FE581F0E6649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
