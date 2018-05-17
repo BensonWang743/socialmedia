@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=socialmediaafba79;AccountKey=PACjKbb+CaBOFXbbWW8BKz6ZJGX2PUguNJ19cE8popDUE34Dgv62sBvB2aJ44qTVC9TMJa/HktV38ljhWqSArg==;EndpointSuffix=core.windows.net",
+    "AzureWebJobsDashboard": "",
+    "socialmediasb": "Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0="
+  },
+  "ConnectionStrings": {
+    "socialmedia": "Server=tcp:socialmediaserver.database.windows.net,1433;Initial Catalog=socialmediadb;Persist Security Info=False;User ID=socialmedia;Password=S0cialmedia!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=300;"
+  }
+}
