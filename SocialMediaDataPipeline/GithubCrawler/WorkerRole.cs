@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using GithubHelper;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure;
@@ -23,6 +24,7 @@ namespace GithubCrawler
         QueueClient Client;
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
         string messageBody;
+        GithubArchieveFileProcessor gitProcessor = new GithubArchieveFileProcessor();
 
         public override void Run()
         {
@@ -41,14 +43,13 @@ namespace GithubCrawler
                         messageBody = new StreamReader(receivedMessage.GetBody<Stream>()).ReadToEnd();
                         RunMain(messageBody);
                     }
-                    catch
+                    catch(Exception e)
                     {
                         // 在此处处理任何处理特定异常的消息
                         Trace.WriteLine("正在重新发送消息:" + messageBody);
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
                         Client.Send(newMessage);
-                        Thread.Sleep(1000*60);
                     }
                 },options);
 
@@ -77,13 +78,9 @@ namespace GithubCrawler
         }
         public void RunMain(string messageBody)
         {
-            int a = 0;
-            if (messageBody.Equals("test1"))
-                Trace.WriteLine("正在开始处理消息:"+messageBody);
-            else if (messageBody.Equals("test2"))
+            if (messageBody.StartsWith("Start"))
             {
-                Trace.WriteLine("正在开始处理消息:" + messageBody);
-                a = 1 / a;
+                gitProcessor.GitHubArchiveParser(Convert.ToDateTime(messageBody.Split(';')[1]), Convert.ToInt32(messageBody.Split(';')[2]));
             }
             
         }
