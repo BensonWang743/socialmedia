@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubHelper", "GithubHelpe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMediaCommonHelper", "SocialMediaCommonHelper\SocialMediaCommonHelper.csproj", "{48E55A3A-873E-484A-A1F3-E45F21A4ECA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADLSTesting", "ADLSTesting\ADLSTesting.csproj", "{5822EA69-D4F9-4817-8482-33CB67FFC264}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{48E55A3A-873E-484A-A1F3-E45F21A4ECA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48E55A3A-873E-484A-A1F3-E45F21A4ECA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48E55A3A-873E-484A-A1F3-E45F21A4ECA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5822EA69-D4F9-4817-8482-33CB67FFC264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5822EA69-D4F9-4817-8482-33CB67FFC264}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5822EA69-D4F9-4817-8482-33CB67FFC264}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5822EA69-D4F9-4817-8482-33CB67FFC264}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

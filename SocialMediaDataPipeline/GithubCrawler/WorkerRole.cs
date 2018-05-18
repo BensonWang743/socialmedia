@@ -82,6 +82,10 @@ namespace GithubCrawler
             {
                 gitProcessor.GitHubArchiveParser(Convert.ToDateTime(messageBody.Split(';')[1]), Convert.ToInt32(messageBody.Split(';')[2]));
             }
+            else if (messageBody.StartsWith("PullRequest"))
+            {
+
+            }
             
         }
     }
