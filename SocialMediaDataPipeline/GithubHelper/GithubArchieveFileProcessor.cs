@@ -71,7 +71,7 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var pull = jSearial.Deserialize<PullRequestModel>(jspayloadReader);
-                                                            sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2},{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
+                                                            sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
 
                                                         }
                                                     }
@@ -82,7 +82,7 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var issue = jSearial.Deserialize<IssueModel>(jspayloadReader);
-                                                            sbHelper.SendMessage(string.Format("Issue;{0};{1};{2},{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
+                                                            sbHelper.SendMessage(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
                                                         }
                                                     }
                                                     break;
@@ -95,15 +95,15 @@ namespace GithubHelper
 
                                                             foreach (var commit in push.commits)
                                                             {
-                                                                sbHelper.SendMessage(string.Format("Commit;{0};{1};{2},{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
+                                                                sbHelper.SendMessage(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
                                                             }
                                                         }
                                                     }
                                                     break;
                                                 default: break;
                                             }
-                                            sbHelper.SendMessage(string.Format("User;{0};{1};{2},{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
-                                            sbHelper.SendMessage(string.Format("Repository;{0};{1};{2},{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
+                                            sbHelper.SendMessage(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
+                                            sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
                                         }                           
                                     }
 

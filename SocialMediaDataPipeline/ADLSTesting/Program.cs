@@ -33,7 +33,7 @@ namespace ADLSTesting
             var adlCreds = GetCreds_SPI_SecretKey(TENANT, ADL_TOKEN_AUDIENCE, CLIENTID, secret_key);
             client = AdlsClient.CreateClient(_adlsAccountName, adlCreds);
             string fileName = "/Github/2018050810/pullrequest";
-            byte[] textByteArray = Encoding.UTF8.GetBytes("This is the added line.\r\n");
+            byte[] textByteArray = Encoding.UTF8.GetBytes("111");
             client.ConcurrentAppend(fileName,true,textByteArray,0,textByteArray.Length);
             List<Task> tasks = new List<Task>();
             Random random = new Random();

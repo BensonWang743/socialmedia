@@ -25,10 +25,11 @@ namespace GithubCrawler
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
         string messageBody;
         GithubArchieveFileProcessor gitProcessor = new GithubArchieveFileProcessor();
+        
 
         public override void Run()
         {
-            Trace.WriteLine("正在开始处理消息");
+           Trace.WriteLine("正在开始处理消息");
             var options = new OnMessageOptions();
 
             // options.AutoComplete = false;
@@ -84,7 +85,8 @@ namespace GithubCrawler
             }
             else if (messageBody.StartsWith("PullRequest"))
             {
-
+                PullRequestProcessor pulls = new PullRequestProcessor(messageBody);
+                pulls.GetContent();
             }
             
         }

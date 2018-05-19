@@ -11,9 +11,9 @@ namespace SocialMediaCommonHelper
     public class ServiceBusHelper
     {
         QueueClient queueClient;
-        public ServiceBusHelper(string queueName, string connectionString)
+        public ServiceBusHelper(string queueName,string connectionString)
         {
-            queueClient = QueueClient.CreateFromConnectionString(connectionString, queueName);
+            queueClient= QueueClient.CreateFromConnectionString(connectionString, queueName);
         }
 
         public void SendMessage(string message)
