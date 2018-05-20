@@ -118,6 +118,10 @@
       <Project>{25F66A23-F473-41E7-887F-CE3064D0B595}</Project>
       <Name>GithubHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SocialMediaCommonHelper\SocialMediaCommonHelper.csproj">
+      <Project>{8701A4E2-8861-40EB-8DA5-4979E20995D1}</Project>
+      <Name>SocialMediaCommonHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

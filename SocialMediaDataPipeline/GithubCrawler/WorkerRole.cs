@@ -11,6 +11,7 @@ using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using SocialMediaCommonHelper;
 
 namespace GithubCrawler
 {
@@ -18,6 +19,7 @@ namespace GithubCrawler
     {
         // 队列的名称
         const string QueueName = "githubqueue";
+        const string dbConStr = "Server=tcp:socialmediaserver.database.windows.net,1433;Initial Catalog=socialmediadb;Persist Security Info=False;User ID=socialmedia;Password=S0cialmedia!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=300;";
 
         // QueueClient 是线程安全的。建议你进行缓存， 
         // 而不是针对每一个请求重新创建它
@@ -25,6 +27,7 @@ namespace GithubCrawler
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
         string messageBody;
         GithubArchieveFileProcessor gitProcessor = new GithubArchieveFileProcessor();
+        DatabaseHelper databaseHelper = new DatabaseHelper(dbConStr);
         
 
         public override void Run()
@@ -48,6 +51,9 @@ namespace GithubCrawler
                     {
                         // 在此处处理任何处理特定异常的消息
                         Trace.WriteLine("正在重新发送消息:" + messageBody);
+                        messageBody = messageBody.Replace(',', ';');
+                        var text = "UPDATE JobInfo SET ErrorMessage='"+e.Message+"' WHERE JobRunId="+ messageBody.Split(';')[2];
+                        databaseHelper.ExecuteNonQuery(text);
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
                         Client.Send(newMessage);

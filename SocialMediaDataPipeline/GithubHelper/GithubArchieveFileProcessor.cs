@@ -35,11 +35,17 @@ namespace GithubHelper
         {
             Uri url = new Uri(string.Format(@"http://data.githubarchive.org/{0}-{1:D2}-{2:D2}-{3}.json.gz", processDate.Year, processDate.Month, processDate.Day, processDate.Hour));
             WebResponse response = null;
-            var request = HttpWebRequest.Create(url) as HttpWebRequest;
+            //var request = HttpWebRequest.Create(url) as HttpWebRequest;
             string str = string.Empty;
-            using (response = request.GetResponse())
+            CommonHelper.RetryAndIgnore(() =>
             {
+                var request = HttpWebRequest.Create(url) as HttpWebRequest;
                 response = request.GetResponse();
+            }, numRetries: 2, retryTimeout: 5);
+
+            //using (response = request.GetResponse())
+            //{
+                //response = request.GetResponse();
                 using (var stream = response.GetResponseStream())
                 {
                     if (response.ContentLength > int.MaxValue)
@@ -113,7 +119,7 @@ namespace GithubHelper
                     }
                 }
 
-            }
+            //}
         }
 
     }

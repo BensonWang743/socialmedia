@@ -83,6 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureDataLakeHelper.cs" />
+    <Compile Include="CommonHelper.cs" />
+    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBusHelper.cs" />
   </ItemGroup>
