@@ -19,7 +19,6 @@ namespace GithubHelper
 
         public UserProcessor(string message)
         {
-            message = message.Replace(',', ';');
             processorName = message.Split(';')[0];
             processDate = Convert.ToDateTime(message.Split(';')[1]);
             jobRunId = Convert.ToInt32(message.Split(';')[2]);
