@@ -11,7 +11,7 @@ namespace SocialMediaAF
     public static class GithubTrigger
     {
         [FunctionName("GithubTrigger")]
-        public static void Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
+        public static void Run([TimerTrigger("0 0 */2 * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
