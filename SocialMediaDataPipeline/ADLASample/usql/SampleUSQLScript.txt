@@ -1,0 +1,8 @@
+@searchlog =
+     EXTRACT pr AS PullRequest
+     FROM "/Github/2018050810/pullrequest"
+     USING Extractors.Text();
+ 
+ OUTPUT @searchlog   
+     TO "/Github/2019050810/pullrequest"
+ USING Outputters.Text();
