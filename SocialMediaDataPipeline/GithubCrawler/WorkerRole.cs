@@ -52,7 +52,7 @@ namespace GithubCrawler
                         // 在此处处理任何处理特定异常的消息
                         Trace.WriteLine("正在重新发送消息:" + messageBody);
                         messageBody = messageBody.Replace(',', ';');
-                        var text = "UPDATE JobInfo SET ErrorMessage='"+e.Message+"' WHERE JobRunId="+ messageBody.Split(';')[2];
+                        var text = "UPDATE JobInfo SET ErrorMessage='"+e.InnerException!=null?e.InnerException.Message:e.Message+"' WHERE JobRunId="+ messageBody.Split(';')[2];
                         databaseHelper.ExecuteNonQuery(text);
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
@@ -93,8 +93,27 @@ namespace GithubCrawler
             {
                 PullRequestProcessor pulls = new PullRequestProcessor(messageBody);
                 pulls.GetContent();
+            } else if (messageBody.StartsWith("Commit"))
+            {
+                CommitProcessor commits = new CommitProcessor(messageBody);
+                commits.GetContent();
             }
-            
+            else if (messageBody.StartsWith("Issue"))
+            {
+                IssueProcessor issues = new IssueProcessor(messageBody);
+                issues.GetContent();
+            }
+            else if (messageBody.StartsWith("User"))
+            {
+                UserProcessor users = new UserProcessor(messageBody);
+                users.GetContent();
+            }
+            else if (messageBody.StartsWith("Repository"))
+            {
+                RepositoryProcessor repositorys = new RepositoryProcessor(messageBody);
+                repositorys.GetContent();
+            }
+
         }
     }
 }

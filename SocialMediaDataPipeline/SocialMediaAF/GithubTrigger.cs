@@ -56,7 +56,7 @@ namespace SocialMediaAF
                         maxUpdate = maxUpdate.AddHours(1);
                         //update db status
                         text = "INSERT INTO JobInfo " +
-                            "SELECT 'GitHub','" + maxUpdate + "','" + DateTime.UtcNow + "',null,'InProgress',0,null";
+                            "SELECT 'GitHub','" + maxUpdate + "','" + DateTime.UtcNow + "',null,null,'InProgress',0,null";
                         using (SqlCommand cmd = new SqlCommand(text, conn))
                         {
                             cmd.ExecuteNonQuery();

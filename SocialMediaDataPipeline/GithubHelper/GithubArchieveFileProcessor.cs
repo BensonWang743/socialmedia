@@ -118,6 +118,9 @@ namespace GithubHelper
                         }
                     }
                 }
+            DatabaseHelper databaseHelper = new DatabaseHelper();
+            var text = "UPDATE JobInfo SET CheckPointsCompletedAt=GetUTCDate()  WHERE JobRunId=" + jobRunId;
+            databaseHelper.ExecuteNonQuery(text);
 
             //}
         }

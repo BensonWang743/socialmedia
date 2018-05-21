@@ -34,6 +34,45 @@ namespace GithubHelper
             return pullRequest;
         }
 
+        public string GetCommit(long repoId, string commitSHA)
+        {
+            string commit = string.Empty;
+            var commitTasks = client.Repository.Commit.Get(repoId,commitSHA);
+            commitTasks.Wait();
+            if (commitTasks.Result != null)
+                commit = JsonConvert.SerializeObject(commitTasks.Result);
+            return commit;
+        }
+        public string GetIssue(long repoId, int number)
+        {
+            string issue = string.Empty;
+            var issueTasks = client.Issue.Get(repoId,number);
+            issueTasks.Wait();
+            if (issueTasks.Result != null)
+                issue = JsonConvert.SerializeObject(issueTasks.Result);
+            return issue;
+        }
+
+        public string GetUsers(string login)
+        {
+            string user = string.Empty;
+            var userTasks = client.User.Get(login);
+            userTasks.Wait();
+            if (userTasks.Result != null)
+                user = JsonConvert.SerializeObject(userTasks.Result);
+            return user;
+        }
+
+        public string GetRepository(long repoId)
+        {
+            string repository = string.Empty;
+            var repoTasks = client.Repository.Get(repoId);
+            repoTasks.Wait();
+            if (repoTasks.Result != null)
+                repository = JsonConvert.SerializeObject(repoTasks.Result);
+            return repository;
+        }
+
         public void CheckRateLimit()
         {
             var rate = client.Miscellaneous.GetRateLimits();

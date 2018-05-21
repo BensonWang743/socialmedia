@@ -10,7 +10,7 @@ namespace SocialMediaCommonHelper
     public class DatabaseHelper
     {
         string conStr = string.Empty;
-        public DatabaseHelper(string connection)
+        public DatabaseHelper(string connection= "Server=tcp:socialmediaserver.database.windows.net,1433;Initial Catalog=socialmediadb;Persist Security Info=False;User ID=socialmedia;Password=S0cialmedia!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=300;")
         {
             conStr = connection;
         }
