@@ -57,6 +57,8 @@ namespace GithubCrawler
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
                         Client.Send(newMessage);
+                        text = "INSERT INTO LogTrace VALUES('Error','"+messageBody+"','"+ e.InnerException != null ? e.InnerException.Message : e.Message + "',GetUtcDate())";
+                        databaseHelper.ExecuteNonQuery(text);
                     }
                 },options);
 

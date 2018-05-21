@@ -18,16 +18,7 @@ namespace GithubHelper
         ServiceBusHelper sbHelper = new ServiceBusHelper("githubqueue","Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=");
         Random random = new Random();
         string[] tokens = new string[] {
-            "46c084306ff12438bd3443a610fac3359f703717",
-            "87588201743c230c1e81b53edaa35b2a745da504",
-            "2dc9699b640b5927759f3ccc1c39017a43def411",
-            "7d4af7803e319bb3de4663b188084894621ebbce",
-            "7753b555e0ed5eaf47e0e0a17eec4a399b984a06",
-            "2c48c53467eb4b4c17c79c9fe492ea7b3f3fa41a",
-            "484d4a859b9a3171191d18ce42c5f894aba70d10",
-            "c36ffa5023fe078e45c9a3cde9e3b3520e280618",
-            "151655c170c9d3d433489a2d638da0ff45788b7b",
-            "9e96a836bbb11f91c34e2e070cd7d1b0038d6329"
+            ""
         };
 
 
