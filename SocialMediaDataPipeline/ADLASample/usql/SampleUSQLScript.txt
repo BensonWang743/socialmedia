@@ -1,5 +1,5 @@
 @searchlog =
-     EXTRACT pr AS PullRequest
+     EXTRACT pr string
      FROM "/Github/2018050810/pullrequest"
      USING Extractors.Text();
  

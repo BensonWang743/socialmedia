@@ -37,6 +37,7 @@ namespace GithubHelper
             //using (response = request.GetResponse())
             //{
                 //response = request.GetResponse();
+                
                 using (var stream = response.GetResponseStream())
                 {
                     if (response.ContentLength > int.MaxValue)
@@ -108,11 +109,12 @@ namespace GithubHelper
                             }
                         }
                     }
-                }
-            DatabaseHelper databaseHelper = new DatabaseHelper();
-            var text = "UPDATE JobInfo SET CheckPointsCompletedAt=GetUTCDate()  WHERE JobRunId=" + jobRunId;
-            databaseHelper.ExecuteNonQuery(text);
-
+                DatabaseHelper databaseHelper = new DatabaseHelper();
+                var text = "UPDATE JobInfo SET CheckPointsCompletedAt=GetUTCDate()  WHERE JobRunId=" + jobRunId;
+                databaseHelper.ExecuteNonQuery(text);
+            }
+             
+            
             //}
         }
 
