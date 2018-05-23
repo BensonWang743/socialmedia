@@ -47,6 +47,10 @@ namespace GithubHelper
                 {
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_deleted", repoId.ToString());
                 }
+                else if (errorMsg.Equals("Repository access blocked"))
+                {
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_blocked", repoId.ToString());
+                }
                 else
                 {
                     throw;

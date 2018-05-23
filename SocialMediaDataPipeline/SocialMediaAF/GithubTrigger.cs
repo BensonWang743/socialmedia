@@ -11,7 +11,7 @@ namespace SocialMediaAF
     public static class GithubTrigger
     {
         [FunctionName("GithubTrigger")]
-        public static void Run([TimerTrigger("0 0 */2 * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
+        public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
@@ -29,12 +29,13 @@ namespace SocialMediaAF
             string status = string.Empty;
             bool isNotified = false;
             int jobRunId = 0;
+            DateTime checkPoint = DateTime.MaxValue;
             using (SqlConnection conn = new SqlConnection(dbStr))
             {
                 try
                 {
                     conn.Open();
-                    var text = "SELECT TOP 1 MaxUpdate,Status,IsNotified,JobRunId FROM dbo.JobInfo "
+                    var text = "SELECT TOP 1 MaxUpdate,Status,IsNotified,JobRunId,CheckPointsCompletedAt FROM dbo.JobInfo "
                             + "WHERE Platform='Github' ORDER BY JobRunId DESC";
 
                     using (SqlCommand cmd = new SqlCommand(text, conn))
@@ -47,6 +48,7 @@ namespace SocialMediaAF
                                 status = reader.GetString(1);
                                 isNotified = reader.GetBoolean(2);
                                 jobRunId = reader.GetInt32(3);
+                                checkPoint = reader.IsDBNull(4)? DateTime.MaxValue:reader.GetDateTime(4);
                             }
                         }
                     }
@@ -64,7 +66,7 @@ namespace SocialMediaAF
                         //generate new message 
                         msg = string.Format("{0};{1};{2}", "Start", maxUpdate, jobRunId + 1);
                     }
-                    else if (status == "InProgress" && msgCount == 0 && isNotified == false)
+                    else if (status == "InProgress" && msgCount == 0 && isNotified == false && checkPoint!=DateTime.MaxValue)
                     {
                         text = "UPDATE JobInfo SET Status='Completed', IsNotified=1 WHERE JobRunId=" + jobRunId;
                         using (SqlCommand cmd = new SqlCommand(text, conn))

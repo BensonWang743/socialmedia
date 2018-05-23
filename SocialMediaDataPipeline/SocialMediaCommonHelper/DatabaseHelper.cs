@@ -39,5 +39,36 @@ namespace SocialMediaCommonHelper
                 }
             }
         }
+
+        public bool RecordExistence(string columnValue, string column, string table = "LogTrace", string schema = "dbo", string db = "socialmediadb")
+        {
+            string commandTxt = "SELECT COUNT(*) FROM " + db + "." + schema + "." + table + " WHERE " + column + "='" + columnValue + "'";
+            int recordExist=0;
+            using (SqlConnection conn = new SqlConnection(conStr))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(commandTxt, conn))
+                    {
+                        recordExist = (int)cmd.ExecuteScalar();
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (recordExist > 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -31,6 +31,7 @@ namespace GithubHelper
             CommonHelper.RetryAndIgnore(() =>
             {
                 var request = HttpWebRequest.Create(url) as HttpWebRequest;
+                request.ReadWriteTimeout = 1000 * 3600;
                 response = request.GetResponse();
             }, numRetries: 2, retryTimeout: 5);
 

@@ -31,11 +31,11 @@ namespace GithubCrawler
 
         public override void Run()
         {
-           Trace.WriteLine("正在开始处理消息");
+           
             var options = new OnMessageOptions();
 
             // options.AutoComplete = false;
-            options.MaxConcurrentCalls = 5;
+            options.MaxConcurrentCalls = 8;
 
 
             // 启动消息泵，并且将为每个已收到的消息调用回调，在客户端上调用关闭将停止该泵。
@@ -51,7 +51,7 @@ namespace GithubCrawler
                     }
                     catch(Exception e)
                     {
-                        Trace.WriteLine("RE-SEND MESSAGE:" + messageBody);
+                        string text = string.Empty;
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
                         Client.Send(newMessage);
@@ -61,10 +61,14 @@ namespace GithubCrawler
                             errorMsg = e.GetBaseException().Message;
                         else
                             errorMsg = e.Message;
-                        var text = "UPDATE JobInfo SET ErrorMessage='"+ errorMsg + "' WHERE JobRunId=" + messageBody.Split(';')[2];
-                        databaseHelper.ExecuteNonQuery(text);
-                        text = "INSERT INTO LogTrace VALUES('Error','"+messageBody+"','"+ errorMsg + "',GetUtcDate())";
-                        databaseHelper.ExecuteNonQuery(text);
+
+                        if (!databaseHelper.RecordExistence(messageBody, "MessageSB"))
+                        {
+                            text = "UPDATE JobInfo SET ErrorMessage='" + errorMsg + "' WHERE JobRunId=" + messageBody.Split(';')[2];
+                            databaseHelper.ExecuteNonQuery(text);
+                            text = "INSERT INTO LogTrace VALUES('Error','" + messageBody + "','" + errorMsg + "',GetUtcDate())";
+                            databaseHelper.ExecuteNonQuery(text);
+                        }
                     }
                 },options);
 
