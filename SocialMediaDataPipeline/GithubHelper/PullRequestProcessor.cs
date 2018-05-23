@@ -33,11 +33,30 @@ namespace GithubHelper
         {
             string changedFiles = string.Empty;
             string pulls = string.Empty;
-            pulls = gitHelper.GetPullRequest(repoId,number,out changedFiles);
-            if (!string.IsNullOrEmpty(changedFiles))
-                adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName+"Files",changedFiles);
-            if (!string.IsNullOrEmpty(pulls))
-                adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName,pulls); 
+            try
+            {
+                pulls = gitHelper.GetPullRequest(repoId, number, out changedFiles);
+                if (!string.IsNullOrEmpty(changedFiles))
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "Files", changedFiles);
+                if (!string.IsNullOrEmpty(pulls))
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, pulls);
+            }
+            catch (Exception e)
+            {
+                string errorMsg = string.Empty;
+                if (e.InnerException != null)
+                    errorMsg = e.GetBaseException().Message;
+                else
+                    errorMsg = e.Message;
+                if (errorMsg.Equals("Not Found"))
+                {
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_deleted", string.Format("{0};{1}",repoId, number));
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

@@ -32,9 +32,28 @@ namespace GithubHelper
         public void GetContent()
         {           
             string commit = string.Empty;
-            commit = gitHelper.GetCommit(repoId, commitSHA);
-            if (!string.IsNullOrEmpty(commit))
-                adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName , commit);
+            try
+            {
+                commit = gitHelper.GetCommit(repoId, commitSHA);
+                if (!string.IsNullOrEmpty(commit))
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, commit);
+            }
+            catch (Exception e)
+            {
+                string errorMsg = string.Empty;
+                if (e.InnerException != null)
+                    errorMsg = e.GetBaseException().Message;
+                else
+                    errorMsg = e.Message;
+                if (errorMsg.Equals("Not Found"))
+                {
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_deleted", string.Format("{0};{1}", repoId, commitSHA));
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

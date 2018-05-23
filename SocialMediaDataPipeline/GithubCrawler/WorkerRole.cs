@@ -25,7 +25,6 @@ namespace GithubCrawler
         // 而不是针对每一个请求重新创建它
         QueueClient Client;
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
-        string messageBody;
         GithubArchieveFileProcessor gitProcessor = new GithubArchieveFileProcessor();
         DatabaseHelper databaseHelper = new DatabaseHelper(dbConStr);
         
@@ -36,25 +35,27 @@ namespace GithubCrawler
             var options = new OnMessageOptions();
 
             // options.AutoComplete = false;
-            options.MaxConcurrentCalls = 1;
-            
+            options.MaxConcurrentCalls = 5;
+
 
             // 启动消息泵，并且将为每个已收到的消息调用回调，在客户端上调用关闭将停止该泵。
             Client.OnMessage((receivedMessage) =>
                 {
+                    string messageBody=string.Empty;
                     try
                     {
+                        
                         // 处理消息
                         messageBody = new StreamReader(receivedMessage.GetBody<Stream>()).ReadToEnd();
                         RunMain(messageBody);
                     }
                     catch(Exception e)
                     {
-                        // 在此处处理任何处理特定异常的消息
                         Trace.WriteLine("RE-SEND MESSAGE:" + messageBody);
                         BrokeredMessage newMessage = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes
                         (messageBody)));
                         Client.Send(newMessage);
+                        // 在此处处理任何处理特定异常的消息
                         string errorMsg = string.Empty;
                         if (e.InnerException != null)
                             errorMsg = e.GetBaseException().Message;
