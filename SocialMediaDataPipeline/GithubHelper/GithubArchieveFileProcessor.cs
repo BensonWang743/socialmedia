@@ -18,7 +18,16 @@ namespace GithubHelper
         ServiceBusHelper sbHelper = new ServiceBusHelper("githubqueue","Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=");
         Random random = new Random();
         string[] tokens = new string[] {
-            ""
+            "46c084306ff12438bd3443a610fac3359f703717",
+            "87588201743c230c1e81b53edaa35b2a745da504",
+            "2dc9699b640b5927759f3ccc1c39017a43def411",
+            "7d4af7803e319bb3de4663b188084894621ebbce",
+            "7753b555e0ed5eaf47e0e0a17eec4a399b984a06",
+            "788645e405db91e10607808b7fd00855ce8a983e",
+            "a4aa09d8342e7a8e7dd304f895840bce0c088288",
+            "c36ffa5023fe078e45c9a3cde9e3b3520e280618",
+            "151655c170c9d3d433489a2d638da0ff45788b7b",
+            "43b57c897864b8820307f833c1d59c041e03a694"
         };
 
 
@@ -26,6 +35,7 @@ namespace GithubHelper
         {
             Uri url = new Uri(string.Format(@"http://data.githubarchive.org/{0}-{1:D2}-{2:D2}-{3}.json.gz", processDate.Year, processDate.Month, processDate.Day, processDate.Hour));
             WebResponse response = null;
+            List<string> messageList = new List<string>();
             //var request = HttpWebRequest.Create(url) as HttpWebRequest;
             string str = string.Empty;
             CommonHelper.RetryAndIgnore(() =>
@@ -70,8 +80,8 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var pull = jSearial.Deserialize<PullRequestModel>(jspayloadReader);
-                                                            sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
-
+                                                        //sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
+                                                        messageList.Add(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number, tokens[random.Next(0, 10)]));
                                                         }
                                                     }
                                                     break;
@@ -81,7 +91,8 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var issue = jSearial.Deserialize<IssueModel>(jspayloadReader);
-                                                            sbHelper.SendMessage(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
+                                                        //sbHelper.SendMessage(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
+                                                        messageList.Add(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
                                                         }
                                                     }
                                                     break;
@@ -94,20 +105,29 @@ namespace GithubHelper
 
                                                             foreach (var commit in push.commits)
                                                             {
-                                                                sbHelper.SendMessage(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
+                                                            //sbHelper.SendMessage(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
+                                                            messageList.Add(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
                                                             }
                                                         }
                                                     }
                                                     break;
                                                 default: break;
                                             }
-                                            sbHelper.SendMessage(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
-                                            sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
+                                        //sbHelper.SendMessage(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
+                                        //sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
+                                        messageList.Add(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
+                                        messageList.Add(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
                                         }                           
                                     }
 
                                 }
+                            if (messageList.Count == 500)
+                            {
+                                sbHelper.SendBatchMessage(messageList);
+                                messageList.Clear();
                             }
+                            }
+                        sbHelper.SendBatchMessage(messageList);
                         }
                     }
                 DatabaseHelper databaseHelper = new DatabaseHelper();

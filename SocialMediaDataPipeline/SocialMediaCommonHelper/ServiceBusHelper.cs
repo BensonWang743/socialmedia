@@ -21,5 +21,14 @@ namespace SocialMediaCommonHelper
             BrokeredMessage msg = new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes(message)));
             queueClient.Send(msg);
         }
+        public void SendBatchMessage(List<string> messageList)
+        {
+            List<BrokeredMessage> msgs = new List<BrokeredMessage>();
+            foreach (string m in messageList)
+            {
+                msgs.Add(new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes(m))));
+            }
+            queueClient.SendBatch(msgs);
+        }
     }
 }
