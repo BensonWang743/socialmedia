@@ -32,6 +32,7 @@ namespace GithubHelper
             string repository = string.Empty;
             try
             {
+                gitHelper.CheckRateLimit();
                 repository = gitHelper.GetRepository(repoId);
                 if (!string.IsNullOrEmpty(repository))
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, repository);

@@ -34,6 +34,7 @@ namespace GithubHelper
             string commit = string.Empty;
             try
             {
+                gitHelper.CheckRateLimit();
                 commit = gitHelper.GetCommit(repoId, commitSHA);
                 if (!string.IsNullOrEmpty(commit))
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, commit);

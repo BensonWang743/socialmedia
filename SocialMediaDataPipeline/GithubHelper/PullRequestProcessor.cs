@@ -35,6 +35,7 @@ namespace GithubHelper
             string pulls = string.Empty;
             try
             {
+                gitHelper.CheckRateLimit();
                 pulls = gitHelper.GetPullRequest(repoId, number, out changedFiles);
                 if (!string.IsNullOrEmpty(changedFiles))
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "Files", changedFiles);

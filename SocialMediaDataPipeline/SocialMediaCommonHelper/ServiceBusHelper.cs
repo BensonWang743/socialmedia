@@ -23,12 +23,28 @@ namespace SocialMediaCommonHelper
         }
         public void SendBatchMessage(List<string> messageList)
         {
+            int maxBatchSizeInBytes = 230000;
+            long currnetBatchSize =0;
             List<BrokeredMessage> msgs = new List<BrokeredMessage>();
             foreach (string m in messageList)
             {
-                msgs.Add(new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes(m))));
+
+                BrokeredMessage message=new BrokeredMessage(new MemoryStream(Encoding.UTF8.GetBytes(m)));
+                if (currnetBatchSize + message.Size < maxBatchSizeInBytes)
+                {
+                    msgs.Add(message);
+                    currnetBatchSize += message.Size;
+                }
+                else
+                {
+                    queueClient.SendBatch(msgs);
+                    msgs.Clear();
+                    msgs.Add(message);
+                    currnetBatchSize = message.Size;
+                }
             }
-            queueClient.SendBatch(msgs);
+            if(msgs.Any())
+                queueClient.SendBatch(msgs);
         }
     }
 }

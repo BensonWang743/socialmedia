@@ -33,10 +33,11 @@ namespace GithubHelper
         {
             string issue = string.Empty;
             try
-            { 
-            issue = gitHelper.GetIssue(repoId, number);
-            if (!string.IsNullOrEmpty(issue))
-                adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, issue);
+            {
+                gitHelper.CheckRateLimit();
+                issue = gitHelper.GetIssue(repoId, number);
+                if (!string.IsNullOrEmpty(issue))
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, issue);
             }
             catch (Exception e)
             {

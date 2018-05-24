@@ -18,16 +18,7 @@ namespace GithubHelper
         ServiceBusHelper sbHelper = new ServiceBusHelper("githubqueue","Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=");
         Random random = new Random();
         string[] tokens = new string[] {
-            "46c084306ff12438bd3443a610fac3359f703717",
-            "87588201743c230c1e81b53edaa35b2a745da504",
-            "2dc9699b640b5927759f3ccc1c39017a43def411",
-            "7d4af7803e319bb3de4663b188084894621ebbce",
-            "7753b555e0ed5eaf47e0e0a17eec4a399b984a06",
-            "788645e405db91e10607808b7fd00855ce8a983e",
-            "a4aa09d8342e7a8e7dd304f895840bce0c088288",
-            "c36ffa5023fe078e45c9a3cde9e3b3520e280618",
-            "151655c170c9d3d433489a2d638da0ff45788b7b",
-            "43b57c897864b8820307f833c1d59c041e03a694"
+            ""
         };
 
 
@@ -121,11 +112,6 @@ namespace GithubHelper
                                     }
 
                                 }
-                            if (messageList.Count == 500)
-                            {
-                                sbHelper.SendBatchMessage(messageList);
-                                messageList.Clear();
-                            }
                             }
                         sbHelper.SendBatchMessage(messageList);
                         }

@@ -31,6 +31,7 @@ namespace GithubHelper
             string user = string.Empty;
             try
             {
+                gitHelper.CheckRateLimit();
                 user = gitHelper.GetUsers(login);
                 if (!string.IsNullOrEmpty(user))
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, user);
