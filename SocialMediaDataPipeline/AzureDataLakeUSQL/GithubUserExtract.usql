@@ -1,0 +1,54 @@
+﻿
+REFERENCE ASSEMBLY AzureDataLakeUDO;
+REFERENCE ASSEMBLY Octokit;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+
+DECLARE @inputUserRaw string = @"/SocialMedia/Github/2018051719/User";
+DECLARE @outputUser string = @"/Github/User.csv";
+@rawUser =
+    EXTRACT avatarUrl string,
+            bio string,
+            blog string,
+            collaborators int?,
+            company string,
+            createdAt DateTime,
+            updatedAt DateTime,
+            diskUsage int?,
+            followers int,
+            following int,
+            hireable bool?,
+            htmlUrl string,
+            totalPrivateRepos int,
+            id int,
+            location string,
+            login string,
+            name string,
+            ownedPrivateRepos int,
+            plan_collaborators long?,
+            plan_name string,
+            plan_privateRepos long?,
+            plan_space long?,
+            plan_billingEmail string,
+            privateGists int?,
+            publicGists int,
+            publicRepos int,
+            url string,
+            permissions_admin bool?,
+            permissions_push bool?,
+            permissions_pull bool?,
+            siteAdmin bool,
+            ldapDistinguishedName string,
+            suspendedAt DateTime?,
+            Type string,
+            Suspended bool,
+            raw string,
+            rawstring string
+    FROM @inputUserRaw
+    USING new AzureDataLakeUDO.GithubUserExtractor(Encoding.UTF8);
+
+OUTPUT @rawUser
+TO @outputUser
+USING Outputters.Csv();
+
+
+    

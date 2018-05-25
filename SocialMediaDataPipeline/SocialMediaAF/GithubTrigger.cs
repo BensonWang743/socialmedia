@@ -68,7 +68,7 @@ namespace SocialMediaAF
                     }
                     else if (status == "InProgress" && msgCount == 0 && isNotified == false && checkPoint!=DateTime.MaxValue)
                     {
-                        text = "UPDATE JobInfo SET Status='Completed', IsNotified=1 WHERE JobRunId=" + jobRunId;
+                        text = "UPDATE JobInfo SET Status='Completed', IsNotified=1,JobEndAt=GetUtcDate() WHERE JobRunId=" + jobRunId;
                         using (SqlCommand cmd = new SqlCommand(text, conn))
                         {
                             cmd.ExecuteNonQuery();
@@ -87,7 +87,7 @@ namespace SocialMediaAF
                     }
                     else
                     {
-                        msg = string.Empty;
+                        msg = "Inprogress";
                     }
                 }
                 catch (Exception e)

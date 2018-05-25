@@ -108,7 +108,7 @@ namespace GithubHelper
                                         //sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
                                         messageList.Add(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
                                         messageList.Add(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
-                                        }                           
+                                    }                           
                                     }
 
                                 }

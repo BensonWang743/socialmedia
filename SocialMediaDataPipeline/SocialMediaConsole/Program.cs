@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GithubHelper;
+using Newtonsoft.Json;
 namespace SocialMediaConsole
 {
     class Program
@@ -18,18 +19,15 @@ namespace SocialMediaConsole
         static void Main(string[] args)
         {
             GithubCommonHelper githubCommonHelper;
-            foreach (string token in tokens)
-            {
-                try
-                {
-                    githubCommonHelper = new GithubCommonHelper(token);
-                    githubCommonHelper.CheckRateLimit();
-                        } catch(Exception e)
-                {
-                    Console.WriteLine(string.Format("{0}:{1}", token, e.InnerException != null? e.InnerException.Message:e.Message));
-                }
-            }
+            githubCommonHelper = new GithubCommonHelper("46c084306ff12438bd3443a610fac3359f703717");
+            githubCommonHelper.CheckRateLimit();
+            string user = githubCommonHelper.GetUsers("rashjz");
 
+            var o = JsonConvert.DeserializeObject<GithubUser>(user);
+            
+            Console.WriteLine(JsonConvert.SerializeObject(o));
+            
+           
 
 
 
