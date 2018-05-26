@@ -34,7 +34,7 @@ namespace GithubHelper
                 gitHelper.CheckRateLimit();
                 user = gitHelper.GetUsers(login);
                 if (!string.IsNullOrEmpty(user))
-                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName, user);
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMdd") + "/" + processorName, user);
             }
             catch (Exception e)
             {
@@ -45,11 +45,11 @@ namespace GithubHelper
                     errorMsg = e.Message;
                 if (errorMsg.Equals("Not Found"))
                 {
-                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_deleted", login);
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMdd") + "/" + processorName + "_deleted", login);
                 }
                 else if (errorMsg.Equals("Repository access blocked"))
                 {
-                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMddHH") + "/" + processorName + "_blocked", login);
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMdd") + "/" + processorName + "_blocked", login);
                 }
                 else
                 {

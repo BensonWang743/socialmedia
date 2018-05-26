@@ -15,7 +15,7 @@ namespace GithubHelper
     public class GithubArchieveFileProcessor
     {
 
-        ServiceBusHelper sbHelper = new ServiceBusHelper("githubqueue","Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=");
+        ServiceBusHelper sbHelper = new ServiceBusHelper("githubqueue", "Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=");
         Random random = new Random();
         string[] tokens = new string[] {
             ""
@@ -24,22 +24,25 @@ namespace GithubHelper
 
         public void GitHubArchiveParser(DateTime processDate, int jobRunId)
         {
-            Uri url = new Uri(string.Format(@"http://data.githubarchive.org/{0}-{1:D2}-{2:D2}-{3}.json.gz", processDate.Year, processDate.Month, processDate.Day, processDate.Hour));
-            WebResponse response = null;
-            List<string> messageList = new List<string>();
-            //var request = HttpWebRequest.Create(url) as HttpWebRequest;
-            string str = string.Empty;
-            CommonHelper.RetryAndIgnore(() =>
+            DateTime currentProcesseDate = processDate;
+            HashSet<string> messageList = new HashSet<string>();
+            while (currentProcesseDate < processDate.AddDays(1))
             {
-                var request = HttpWebRequest.Create(url) as HttpWebRequest;
-                request.ReadWriteTimeout = 1000 * 3600;
-                response = request.GetResponse();
-            }, numRetries: 2, retryTimeout: 5);
+                Uri url = new Uri(string.Format(@"http://data.githubarchive.org/{0}-{1:D2}-{2:D2}-{3}.json.gz", currentProcesseDate.Year, currentProcesseDate.Month, currentProcesseDate.Day, currentProcesseDate.Hour));
+                WebResponse response = null;
+                //var request = HttpWebRequest.Create(url) as HttpWebRequest;
+                string str = string.Empty;
+                CommonHelper.RetryAndIgnore(() =>
+                {
+                    var request = HttpWebRequest.Create(url) as HttpWebRequest;
+                    request.ReadWriteTimeout = 1000 * 3600;
+                    response = request.GetResponse();
+                }, numRetries: 2, retryTimeout: 5);
 
-            //using (response = request.GetResponse())
-            //{
+                //using (response = request.GetResponse())
+                //{
                 //response = request.GetResponse();
-                
+
                 using (var stream = response.GetResponseStream())
                 {
                     if (response.ContentLength > int.MaxValue)
@@ -71,8 +74,8 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var pull = jSearial.Deserialize<PullRequestModel>(jspayloadReader);
-                                                        //sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
-                                                        messageList.Add(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number, tokens[random.Next(0, 10)]));
+                                                            //sbHelper.SendMessage(string.Format("PullRequest;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number,tokens[random.Next(0,10)]));
+                                                            messageList.Add(string.Format("PullRequest;{0};{1};{2};{3};", processDate, jobRunId, gitHubArchiveEvent.repo.id, pull.number));
                                                         }
                                                     }
                                                     break;
@@ -82,8 +85,8 @@ namespace GithubHelper
                                                         using (JsonTextReader jspayloadReader = new JsonTextReader(payLoadReader))
                                                         {
                                                             var issue = jSearial.Deserialize<IssueModel>(jspayloadReader);
-                                                        //sbHelper.SendMessage(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
-                                                        messageList.Add(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
+                                                            //sbHelper.SendMessage(string.Format("Issue;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number, tokens[random.Next(0, 10)]));
+                                                            messageList.Add(string.Format("Issue;{0};{1};{2};{3};", processDate, jobRunId, gitHubArchiveEvent.repo.id, issue.issue.number));
                                                         }
                                                     }
                                                     break;
@@ -96,32 +99,34 @@ namespace GithubHelper
 
                                                             foreach (var commit in push.commits)
                                                             {
-                                                            //sbHelper.SendMessage(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
-                                                            messageList.Add(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
+                                                                //sbHelper.SendMessage(string.Format("Commit;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha, tokens[random.Next(0, 10)]));
+                                                                messageList.Add(string.Format("Commit;{0};{1};{2};{3};", processDate, jobRunId, gitHubArchiveEvent.repo.id, commit.sha));
                                                             }
                                                         }
                                                     }
                                                     break;
                                                 default: break;
                                             }
-                                        //sbHelper.SendMessage(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
-                                        //sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
-                                        messageList.Add(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
-                                        messageList.Add(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
-                                    }                           
+                                            //sbHelper.SendMessage(string.Format("User;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty, tokens[random.Next(0, 10)]));
+                                            //sbHelper.SendMessage(string.Format("Repository;{0};{1};{2};{3};{4}", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty, tokens[random.Next(0, 10)]));
+                                            messageList.Add(string.Format("User;{0};{1};{2};{3};", processDate, jobRunId, gitHubArchiveEvent.actor.login, string.Empty));
+                                            messageList.Add(string.Format("Repository;{0};{1};{2};{3};", processDate, jobRunId, gitHubArchiveEvent.repo.id, string.Empty));
+                                        }
                                     }
 
                                 }
                             }
-                        sbHelper.SendBatchMessage(messageList);
                         }
                     }
-                DatabaseHelper databaseHelper = new DatabaseHelper();
-                var text = "UPDATE JobInfo SET CheckPointsCompletedAt=GetUTCDate()  WHERE JobRunId=" + jobRunId;
-                databaseHelper.ExecuteNonQuery(text);
+
+                }
+                currentProcesseDate = currentProcesseDate.AddHours(1);
             }
-             
-            
+            sbHelper.SendBatchMessage(messageList);
+            DatabaseHelper databaseHelper = new DatabaseHelper();
+            var text = "UPDATE JobInfo SET CheckPointsCompletedAt=GetUTCDate()  WHERE JobRunId=" + jobRunId;
+            databaseHelper.ExecuteNonQuery(text);
+
             //}
         }
 

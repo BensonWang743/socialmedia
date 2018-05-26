@@ -87,5 +87,18 @@ namespace GithubHelper
             }
 
         }
+
+        public int CheckRateLimit(string token)
+        {
+            int remain = 0;
+            var rate = client.Miscellaneous.GetRateLimits();
+            rate.Wait();
+
+            if (rate.Result != null)
+            {
+                remain = rate.Result.Rate.Remaining;
+            }
+            return remain;
+        }
     }
 }

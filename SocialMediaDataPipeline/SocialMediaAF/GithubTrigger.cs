@@ -11,7 +11,7 @@ namespace SocialMediaAF
     public static class GithubTrigger
     {
         [FunctionName("GithubTrigger")]
-        public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
+        public static void Run([TimerTrigger("0 */20 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context, [ServiceBus("githubqueue", Connection = "socialmediasb")] out string msg)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
@@ -55,7 +55,7 @@ namespace SocialMediaAF
                     if (status == "Completed" && msgCount == 0)
                     {
 
-                        maxUpdate = maxUpdate.AddHours(1);
+                        maxUpdate = maxUpdate.AddDays(1);
                         //update db status
                         text = "INSERT INTO JobInfo " +
                             "SELECT 'GitHub','" + maxUpdate + "','" + DateTime.UtcNow + "',null,null,'InProgress',0,null";
@@ -63,8 +63,20 @@ namespace SocialMediaAF
                         {
                             cmd.ExecuteNonQuery();
                         }
+                        text = "SELECT TOP 1 JobRunId FROM dbo.JobInfo "
+                            + "WHERE Platform='Github' ORDER BY JobRunId DESC";
+                        using (SqlCommand cmd = new SqlCommand(text, conn))
+                        {
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    jobRunId = reader.GetInt32(0);
+                                }
+                            }
+                        }
                         //generate new message 
-                        msg = string.Format("{0};{1};{2}", "Start", maxUpdate, jobRunId + 1);
+                        msg = string.Format("{0};{1};{2}", "Start", maxUpdate, jobRunId);
                     }
                     else if (status == "InProgress" && msgCount == 0 && isNotified == false && checkPoint!=DateTime.MaxValue)
                     {

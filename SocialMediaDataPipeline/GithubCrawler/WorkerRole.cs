@@ -35,7 +35,7 @@ namespace GithubCrawler
             var options = new OnMessageOptions();
 
             // options.AutoComplete = false;
-            options.MaxConcurrentCalls = 8;
+            options.MaxConcurrentCalls = 10;
 
 
             // 启动消息泵，并且将为每个已收到的消息调用回调，在客户端上调用关闭将停止该泵。
