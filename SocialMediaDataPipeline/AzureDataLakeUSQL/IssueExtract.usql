@@ -1,0 +1,42 @@
+﻿
+REFERENCE ASSEMBLY AzureDataLakeUDO;
+REFERENCE ASSEMBLY Octokit;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+
+DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/Issue";
+DECLARE @output string = @"/Github/Issue.csv";
+@raw =
+    EXTRACT 
+ locked bool,
+updatedAt DateTime?,
+createdAt DateTime,
+closedAt DateTime?,
+pullRequest_RepoId long?,
+pullRequest_Number int?,
+comments int,
+milestone string,
+assignees string,
+assignee int?,
+labels string,
+user int?,
+closedBy int?,
+body string,
+title string,
+state string,
+number int,
+eventUrl string,
+commentsUrl string,
+htmlUrl string,
+url string,
+id int,
+repository_Id long?,
+reactions string
+    FROM @inputRaw
+    USING new AzureDataLakeUDO.GithubIssueExtractor(Encoding.UTF8);
+
+OUTPUT @raw
+TO @output
+USING Outputters.Csv();
+
+
+    

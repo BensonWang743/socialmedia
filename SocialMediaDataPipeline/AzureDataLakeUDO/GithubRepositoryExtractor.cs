@@ -65,7 +65,7 @@ namespace AzureDataLakeUDO
                         output.Set("svnUrl", repo.SvnUrl);
                         output.Set("mirrorUrl", repo.MirrorUrl);
                         output.Set("id", repo.Id);
-                        output.Set("owner", repo.Owner==null?(long?)null:repo.Owner.Id);
+                        output.Set("ownerId", repo.Owner==null?(int?)null:repo.Owner.Id);
                         output.Set("name", repo.Name);
                         output.Set("fullName", repo.FullName);
                         output.Set("description", repo.Description);

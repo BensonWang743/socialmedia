@@ -40,9 +40,7 @@ DECLARE @outputUser string = @"/Github/User.csv";
             ldapDistinguishedName string,
             suspendedAt DateTime?,
             Type string,
-            Suspended bool,
-            raw string,
-            rawstring string
+            Suspended bool
     FROM @inputUserRaw
     USING new AzureDataLakeUDO.GithubUserExtractor(Encoding.UTF8);
 

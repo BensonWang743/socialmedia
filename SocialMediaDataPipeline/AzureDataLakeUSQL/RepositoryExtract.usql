@@ -1,0 +1,59 @@
+﻿
+REFERENCE ASSEMBLY AzureDataLakeUDO;
+REFERENCE ASSEMBLY Octokit;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+
+DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/Repository";
+DECLARE @output string = @"/Github/Repository.csv";
+@raw =
+    EXTRACT 
+ openIssuesCount int,
+pushedAt DateTime?,
+createdAt DateTime,
+updatedAt DateTime,
+permissions_admin bool?,
+permissions_push bool?,
+permissions_pull bool?,
+parentRepoId long?,
+sourceRepoId long?,
+hasIssues bool,
+defaultBranch string,
+hasWiki bool,
+hasDownload bool,
+allowRebaseMerge bool?,
+allowSquashMerge bool?,
+allowMergeCommit bool?,
+hasPages bool,
+licenseMetadata_Key string,
+licenseMetadata_Name string,
+licenseMetadata_SpdxId string,
+licenseMetadata_Url string,
+licenseMetadata_Featured bool?,
+stargazersCount int,
+forksCount int,
+fork bool,
+url string,
+htmlUrl string,
+cloneUrl string,
+gitUrl string,
+sshUrl string,
+svnUrl string,
+mirrorUrl string,
+id long,
+ownerId int?,
+fullName string,
+description string,
+homepage string,
+language string,
+[private] bool,
+subscribersCount int,
+size long
+    FROM @inputRaw
+    USING new AzureDataLakeUDO.GithubRepositoryExtractor(Encoding.UTF8);
+
+OUTPUT @raw
+TO @output
+USING Outputters.Csv();
+
+
+    

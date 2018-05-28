@@ -22,6 +22,7 @@
   <ItemGroup>
     <Script Include="CreateGithubDatabase.usql" />
     <Script Include="GithubUserExtract.usql" />
+    <Script Include="RepositoryExtract.usql" />
   </ItemGroup>
   <ItemGroup>
     <ScriptCode Include="CreateGithubDatabase.usql.cs">
@@ -29,6 +30,9 @@
     </ScriptCode>
     <ScriptCode Include="GithubUserExtract.usql.cs">
       <DependentUpon>GithubUserExtract.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="RepositoryExtract.usql.cs">
+      <DependentUpon>RepositoryExtract.usql</DependentUpon>
     </ScriptCode>
   </ItemGroup>
   <ItemGroup>

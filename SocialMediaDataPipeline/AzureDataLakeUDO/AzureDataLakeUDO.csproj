@@ -49,7 +49,17 @@
     <Reference Include="Microsoft.Analytics.Types" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GithubCommitExtractor.cs" />
+    <Compile Include="GithubIssueExtractor.cs" />
     <Compile Include="GithubModel\GitAccount.cs" />
+    <Compile Include="GithubModel\GitAuthor.cs" />
+    <Compile Include="GithubModel\GitCommitFile.cs" />
+    <Compile Include="GithubModel\GitCommits.cs" />
+    <Compile Include="GithubModel\GitCommitStats.cs" />
+    <Compile Include="GithubModel\GitCommitter.cs" />
+    <Compile Include="GithubModel\GithubCommits.cs" />
+    <Compile Include="GithubModel\GitVerification.cs" />
+    <Compile Include="GithubPullRequestExtractor.cs" />
     <Compile Include="GithubModel\GithubReference.cs" />
     <Compile Include="GithubModel\GitIssue.cs" />
     <Compile Include="GithubModel\GitLabel.cs" />

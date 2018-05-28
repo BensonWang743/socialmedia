@@ -1,0 +1,42 @@
+﻿
+REFERENCE ASSEMBLY AzureDataLakeUDO;
+REFERENCE ASSEMBLY Octokit;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+
+DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/Commit";
+DECLARE @output string = @"/Github/Commit.csv";
+@raw =
+    EXTRACT 
+ authorId int?,
+commentsUrl string,
+commit_AuthorMessage string,
+commit_AuthorEmail string,
+commit_AuthorDate DateTime?,
+commit_CommitterEmail string,
+commit_CommitterDate DateTime?,
+commit_Tree string,
+commit_Parents string,
+commit_CommentCount int?,
+commit_Verification string,
+committerId int?,
+htmlUrl string,
+stats_Additions int?,
+stats_Deletions int?,
+stats_Total int?,
+parents string,
+files string,
+url string,
+label string,
+[ref] string,
+sha string,
+userId int?,
+repositoryId long?
+    FROM @inputRaw
+    USING new AzureDataLakeUDO.GithubCommitExtractor(Encoding.UTF8);
+
+OUTPUT @raw
+TO @output
+USING Outputters.Csv();
+
+
+    
