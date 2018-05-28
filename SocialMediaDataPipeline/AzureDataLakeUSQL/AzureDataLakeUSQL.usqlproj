@@ -20,16 +20,28 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Script Include="commitExtractor.usql" />
     <Script Include="CreateGithubDatabase.usql" />
     <Script Include="GithubUserExtract.usql" />
+    <Script Include="IssueExtract.usql" />
+    <Script Include="PullRequestExtractor.usql" />
     <Script Include="RepositoryExtract.usql" />
   </ItemGroup>
   <ItemGroup>
+    <ScriptCode Include="commitExtractor.usql.cs">
+      <DependentUpon>commitExtractor.usql</DependentUpon>
+    </ScriptCode>
     <ScriptCode Include="CreateGithubDatabase.usql.cs">
       <DependentUpon>CreateGithubDatabase.usql</DependentUpon>
     </ScriptCode>
     <ScriptCode Include="GithubUserExtract.usql.cs">
       <DependentUpon>GithubUserExtract.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="IssueExtract.usql.cs">
+      <DependentUpon>IssueExtract.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="PullRequestExtractor.usql.cs">
+      <DependentUpon>PullRequestExtractor.usql</DependentUpon>
     </ScriptCode>
     <ScriptCode Include="RepositoryExtract.usql.cs">
       <DependentUpon>RepositoryExtract.usql</DependentUpon>
