@@ -49,6 +49,19 @@
     <Reference Include="Microsoft.Analytics.Types" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GithubModel\GitAccount.cs" />
+    <Compile Include="GithubModel\GithubReference.cs" />
+    <Compile Include="GithubModel\GitIssue.cs" />
+    <Compile Include="GithubModel\GitLabel.cs" />
+    <Compile Include="GithubModel\GitLicenseMetadata.cs" />
+    <Compile Include="GithubModel\GitMilestone.cs" />
+    <Compile Include="GithubModel\GitPlan.cs" />
+    <Compile Include="GithubModel\GitPullRequest.cs" />
+    <Compile Include="GithubModel\GitReactionSummary.cs" />
+    <Compile Include="GithubModel\GitRepository.cs" />
+    <Compile Include="GithubModel\GitRepositoryPermissions.cs" />
+    <Compile Include="GithubModel\GitUser.cs" />
+    <Compile Include="GithubRepositoryExtractor.cs" />
     <Compile Include="GithubUserExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

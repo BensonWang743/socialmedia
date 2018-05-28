@@ -13,7 +13,7 @@ namespace SocialMediaConsole
     class Program
     {
         static string[] tokens = new string[] {
-            ""
+             ""
         };
 
         static void Main(string[] args)
@@ -24,6 +24,9 @@ namespace SocialMediaConsole
             foreach (string token in tokens)
             {
                 githubCommonHelper = new GithubCommonHelper(token);
+                var re = githubCommonHelper.GetRepository(116493071);
+                var a=githubCommonHelper.GetIssue(116493071,2);
+                
                 remain = githubCommonHelper.CheckRateLimit("a");
                 Console.WriteLine("token=" + token + "   remainrequest=" + remain);
             }
@@ -37,13 +40,13 @@ namespace SocialMediaConsole
 
 
 
-            int i = 0;
-            while (i < 100)
-            {
-                Random a = new Random();
-                Console.WriteLine(a.Next(1, 11));
-                i++;
-            }
+            //int i = 0;
+            //while (i < 100)
+            //{
+            //    Random a = new Random();
+            //    Console.WriteLine(a.Next(1, 11));
+            //    i++;
+            //}
             //string connStr = "Endpoint=sb://socialmediasb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Wi198MbCAvirOEjaT6MpZahWifihZFc6GMtm30icsb0=";
             //string queueName = "githubqueue";
             //QueueClient client = QueueClient.CreateFromConnectionString(connStr, queueName);

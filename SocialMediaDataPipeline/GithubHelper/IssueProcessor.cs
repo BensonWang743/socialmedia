@@ -54,6 +54,10 @@ namespace GithubHelper
                 {
                     adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMdd") + "/" + processorName + "_blocked", string.Format("{0};{1}", repoId, number));
                 }
+                else if (errorMsg.Equals("Issues are disabled for this repo"))
+                {
+                    adlHelper.ConcurrentAppendFile("/SocialMedia/Github/" + processDate.ToString("yyyyMMdd") + "/" + processorName + "_disabled", string.Format("{0};{1}", repoId, number));
+                }
                 else
                 {
                     throw;

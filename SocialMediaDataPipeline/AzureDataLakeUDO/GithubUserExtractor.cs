@@ -1,8 +1,8 @@
-﻿using Microsoft.Analytics.Interfaces;
+﻿using AzureDataLakeUDO.GithubModel;
+using Microsoft.Analytics.Interfaces;
 using Microsoft.Analytics.Interfaces.Streaming;
 using Microsoft.Analytics.Types.Sql;
 using Newtonsoft.Json;
-using Octokit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,14 +32,7 @@ namespace AzureDataLakeUDO
                     line = streamReader.ReadToEnd().Trim();
                     if (!string.IsNullOrEmpty(line))
                     {
-                        //string , string , string , int , string , DateTimeOffset , DateTimeOffset , int , string , int , int , bool? , string , int , int , string , string , string , int , Plan , int , int , 
-                        //int , string , RepositoryPermissions , bool , string , DateTimeOffset? 
-                        /*
-                         long , string , long , long , string 
-                         bool admin, bool push, bool 
-                         */
-
-                        User user = JsonConvert.DeserializeObject<User>(line);
+                        GitUser user = JsonConvert.DeserializeObject<GitUser>(line);
                         output.Set("avatarUrl", user.AvatarUrl);
                         output.Set("bio",user.Bio);
                         output.Set("blog", user.Blog);
@@ -75,8 +68,6 @@ namespace AzureDataLakeUDO
                         output.Set("suspendedAt", user.SuspendedAt==null?(DateTime?)null:user.SuspendedAt.Value.UtcDateTime);
                         output.Set("Type", user.Type==null?null:user.Type.Value.ToString());
                         output.Set("Suspended", user.Suspended);
-                        output.Set("raw",JsonConvert.SerializeObject(user));
-                        output.Set("rawstring",line);
                     }
 
                 }
