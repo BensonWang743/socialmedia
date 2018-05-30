@@ -35,9 +35,6 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Octokit, Version=0.29.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.29.0\lib\net45\Octokit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,12 +49,15 @@
     <Compile Include="GithubCommitExtractor.cs" />
     <Compile Include="GithubIssueExtractor.cs" />
     <Compile Include="GithubModel\GitAccount.cs" />
+    <Compile Include="GithubModel\GitAccountType.cs" />
     <Compile Include="GithubModel\GitAuthor.cs" />
     <Compile Include="GithubModel\GitCommitFile.cs" />
     <Compile Include="GithubModel\GitCommits.cs" />
     <Compile Include="GithubModel\GitCommitStats.cs" />
     <Compile Include="GithubModel\GitCommitter.cs" />
     <Compile Include="GithubModel\GithubCommits.cs" />
+    <Compile Include="GithubModel\GitItemState.cs" />
+    <Compile Include="GithubModel\GitProcessedFiles.cs" />
     <Compile Include="GithubModel\GitVerification.cs" />
     <Compile Include="GithubPullRequestExtractor.cs" />
     <Compile Include="GithubModel\GithubReference.cs" />

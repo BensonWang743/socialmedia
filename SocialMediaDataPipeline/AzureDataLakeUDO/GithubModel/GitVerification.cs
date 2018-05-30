@@ -1,6 +1,4 @@
-﻿using Octokit;
-using Octokit.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +12,7 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // 摘要:
         //     The reason for verified value.
-        [Parameter(Key = "reason")]
-        public StringEnum<VerificationReason> Reason { get;  set; }
+        public GitItemState Reason { get;  set; }
         //
         // 摘要:
         //     The signature that was extracted from the commit.

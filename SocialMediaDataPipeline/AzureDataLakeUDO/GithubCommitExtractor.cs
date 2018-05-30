@@ -8,6 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * todo:
+ max size for each row is 4 MB
+ need to use byte[] instead
+     */
 namespace AzureDataLakeUDO
 {
     [SqlUserDefinedExtractor(AtomicFileProcessing = false)]
@@ -49,13 +54,29 @@ namespace AzureDataLakeUDO
                         output.Set("stats_Deletions", commit.Stats == null ? (int?)null : commit.Stats.Deletions);
                         output.Set("stats_Total", commit.Stats == null ? (int?)null : commit.Stats.Total);
                         output.Set("parents", commit.Parents == null ? null : JsonConvert.SerializeObject(commit.Parents));
-                        output.Set("files", commit.Files == null ? null : JsonConvert.SerializeObject(commit.Files));
+                        //output.Set("files", commit.Files == null ? null : Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(commit.Files)));
                         output.Set("url",commit.Url);
                         output.Set("label", commit.Label);
                         output.Set("ref", commit.Ref);
                         output.Set("sha", commit.Sha);
                         output.Set("userId", commit.User==null?(int?)null:commit.User.Id);
                         output.Set("repositoryId", commit.Repository==null?(long?)null:commit.Repository.Id);
+                        List<GitProcessedFiles> processedFiles = new List<GitProcessedFiles>();
+                        if (commit.Files != null)
+                        {
+                            foreach (var f in commit.Files)
+                            {
+                                processedFiles.Add(new GitProcessedFiles()
+                                {
+                                    Status = f.Status,
+                                    RawUrl = f.RawUrl,
+                                    PreviousFileName = f.PreviousFileName
+                                });
+                            }
+                            output.Set("files", JsonConvert.SerializeObject(processedFiles));
+                        }
+                        else
+                            output.Set("files",(string)null);
 
                     }
                 }

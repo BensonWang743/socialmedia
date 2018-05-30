@@ -8,6 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * todo:
+ max size for each row is 4 MB
+ need to use byte[] instead
+     */
 namespace AzureDataLakeUDO
 {
     [SqlUserDefinedExtractor(AtomicFileProcessing = false)]

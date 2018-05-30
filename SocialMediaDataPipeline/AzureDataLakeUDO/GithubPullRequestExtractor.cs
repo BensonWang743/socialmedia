@@ -37,7 +37,7 @@ namespace AzureDataLakeUDO
                         output.Set("milestone", pr.Milestone == null ? null : JsonConvert.SerializeObject(pr.Milestone));
                         output.Set("merged", pr.Merged);
                         output.Set("mergeable", pr.Mergeable);
-                        output.Set("mergeableState", pr.MergeableState);
+                        output.Set("mergeableState", pr.MergeableState==null?null:pr.MergeableState.StringValue);
                         output.Set("mergeCommitSHA", pr.MergeCommitSha);
                         output.Set("userId", pr.User==null?(int?)null : pr.User.Id);
                         output.Set("comments", pr.Comments);
@@ -57,7 +57,7 @@ namespace AzureDataLakeUDO
                         output.Set("issueUrl", pr.IssueUrl);
                         output.Set("head", pr.Head == null ? null : JsonConvert.SerializeObject(pr.Head));
                         output.Set("statusesUrl", pr.StatusesUrl);
-                        output.Set("state", pr.State);
+                        output.Set("state", pr.State.StringValue);
                         output.Set("title", pr.Title);
                         output.Set("body", pr.Body);
                         output.Set("createdAt", pr.CreatedAt.UtcDateTime);

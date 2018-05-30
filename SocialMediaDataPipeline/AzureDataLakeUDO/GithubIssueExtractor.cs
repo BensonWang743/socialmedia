@@ -45,9 +45,9 @@ namespace AzureDataLakeUDO
                         output.Set("labels", issue.Labels==null?null:JsonConvert.SerializeObject(issue.Labels));
                         output.Set("user", issue.User==null?(int?)null:issue.User.Id);
                         output.Set("closedBy", issue.ClosedBy==null?(int?)null:issue.ClosedBy.Id);
-                        output.Set("body", issue.Body);
+                        output.Set("body", issue.Body==null?null:issue.Body.Length>2050?issue.Body.Substring(0,2048):issue.Body);
                         output.Set("title", issue.Title);
-                        output.Set("state", issue.State);
+                        output.Set("state", issue.State.StringValue);
                         output.Set("number", issue.Number);
                         output.Set("eventUrl", issue.EventsUrl);
                         output.Set("commentsUrl", issue.CommentsUrl);

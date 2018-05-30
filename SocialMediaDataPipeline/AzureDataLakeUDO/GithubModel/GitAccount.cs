@@ -1,4 +1,4 @@
-﻿using Octokit;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // Summary:
         //     The type of account associated with this entity
-        public AccountType? Type { get; set; }
+        public GitAccountType? Type { get; set; }
         //
         // Summary:
         //     The account's full name.

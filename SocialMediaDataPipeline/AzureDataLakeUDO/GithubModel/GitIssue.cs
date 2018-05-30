@@ -1,5 +1,4 @@
-﻿using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,7 +64,7 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // Summary:
         //     Whether the issue is open or closed.
-        public StringEnum<ItemState> State { get; set; }
+        public GitItemState State { get; set; }
         //
         // Summary:
         //     The issue number.

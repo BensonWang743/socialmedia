@@ -1,4 +1,4 @@
-﻿using Octokit.Internal;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,6 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // Summary:
         //     The repository associated with this reference.
-        [Parameter(Key = "repo")]
         public GitRepository Repository { get; set; }
     }
 }

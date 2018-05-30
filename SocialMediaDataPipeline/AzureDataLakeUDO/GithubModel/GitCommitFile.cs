@@ -1,5 +1,4 @@
-﻿using Octokit.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +51,6 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // 摘要:
         //     The previous filename for a renamed file.
-        [Parameter(Key = "previous_filename")]
         public string PreviousFileName { get;  set; }
     }
 }

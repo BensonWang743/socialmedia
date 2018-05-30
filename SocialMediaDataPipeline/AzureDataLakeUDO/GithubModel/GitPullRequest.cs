@@ -1,5 +1,4 @@
-﻿using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +31,7 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // Summary:
         //     Provides extra information regarding the mergeability of the pull request.
-        public StringEnum<MergeableState>? MergeableState { get; set; }
+        public GitItemState MergeableState { get; set; }
         //
         // Summary:
         //     The value of this field changes depending on the state of the pull request. Not
@@ -116,7 +115,7 @@ namespace AzureDataLakeUDO.GithubModel
         //
         // Summary:
         //     Whether the pull request is open or closed. The default is Octokit.ItemState.Open.
-        public StringEnum<ItemState> State { get; set; }
+        public GitItemState State { get; set; }
         //
         // Summary:
         //     Title of the pull request.
