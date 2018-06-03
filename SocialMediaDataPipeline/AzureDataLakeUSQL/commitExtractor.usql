@@ -3,8 +3,11 @@ REFERENCE ASSEMBLY AzureDataLakeUDO;
 REFERENCE ASSEMBLY Octokit;
 REFERENCE ASSEMBLY [Newtonsoft.Json];
 
-DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/Commit";
-DECLARE @output string = @"/Github/Commit.csv";
+DECLARE @inputRaw string =  @"adl://socialmediaadls.azuredatalakestore.net/SocialMedia/Github/20180519/Commit";
+DECLARE @partition DateTime = DateTime.UtcNow;
+
+ALTER TABLE Github.dbo.Commit
+ADD IF NOT EXISTS PARTITION(@partition);
 @raw =
     EXTRACT 
  authorId int?,
@@ -34,9 +37,13 @@ repositoryId long?
     FROM @inputRaw
     USING new AzureDataLakeUDO.GithubCommitExtractor(Encoding.UTF8);
 
-OUTPUT @raw
-TO @output
-USING Outputters.Csv();
+INSERT INTO Github.dbo.Commit
+PARTITION
+(
+    @partition
+)
+SELECT *
+FROM @raw;
 
 
     

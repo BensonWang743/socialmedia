@@ -1,0 +1,34 @@
+﻿
+
+CREATE TABLE dbo.Commit
+(
+     authorId int?,
+commentsUrl string,
+commit_AuthorMessage string,
+commit_AuthorEmail string,
+commit_AuthorDate DateTime?,
+commit_CommitterEmail string,
+commit_CommitterDate DateTime?,
+commit_Tree string,
+commit_Parents string,
+commit_CommentCount int?,
+commit_Verification string,
+committerId int?,
+htmlUrl string,
+stats_Additions int?,
+stats_Deletions int?,
+stats_Total int?,
+parents string,
+files string,
+url string,
+label string,
+[ref] string,
+sha string,
+userId int?,
+repositoryId long?,
+ingestdatatime DateTime,
+    INDEX clx_SHA CLUSTERED(sha)
+)
+PARTITIONED BY (ingestdatatime)
+DISTRIBUTED BY HASH (sha) 
+INTO 100;

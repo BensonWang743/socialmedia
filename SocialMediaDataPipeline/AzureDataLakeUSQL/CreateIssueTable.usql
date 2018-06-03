@@ -1,0 +1,34 @@
+﻿
+
+CREATE TABLE dbo.Issue
+(
+    locked bool,
+updatedAt DateTime?,
+createdAt DateTime,
+closedAt DateTime?,
+pullRequest_RepoId long?,
+pullRequest_Number int?,
+comments int,
+milestone string,
+assignees string,
+assignee int?,
+labels string,
+user int?,
+closedBy int?,
+body string,
+title string,
+state string,
+number int,
+eventUrl string,
+commentsUrl string,
+htmlUrl string,
+url string,
+id int,
+repository_Id long?,
+reactions string,
+ingestdatatime DateTime,
+    INDEX clx_Id CLUSTERED(id)
+)
+PARTITIONED BY (ingestdatatime)
+DISTRIBUTED BY HASH (id) 
+INTO 100;

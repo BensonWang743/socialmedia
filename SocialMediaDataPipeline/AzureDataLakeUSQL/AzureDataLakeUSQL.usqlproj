@@ -21,7 +21,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Script Include="commitExtractor.usql" />
+    <Script Include="CreateCommitTable.usql" />
     <Script Include="CreateGithubDatabase.usql" />
+    <Script Include="CreateIssueTable.usql" />
+    <Script Include="CreatePullRequestTable.usql" />
+    <Script Include="CreateRepositoryTable.usql" />
+    <Script Include="CreateUserTable.usql" />
     <Script Include="GithubUserExtract.usql" />
     <Script Include="IssueExtract.usql" />
     <Script Include="PullRequestExtractor.usql" />
@@ -31,8 +36,23 @@
     <ScriptCode Include="commitExtractor.usql.cs">
       <DependentUpon>commitExtractor.usql</DependentUpon>
     </ScriptCode>
+    <ScriptCode Include="CreateCommitTable.usql.cs">
+      <DependentUpon>CreateCommitTable.usql</DependentUpon>
+    </ScriptCode>
     <ScriptCode Include="CreateGithubDatabase.usql.cs">
       <DependentUpon>CreateGithubDatabase.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="CreateIssueTable.usql.cs">
+      <DependentUpon>CreateIssueTable.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="CreatePullRequestTable.usql.cs">
+      <DependentUpon>CreatePullRequestTable.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="CreateRepositoryTable.usql.cs">
+      <DependentUpon>CreateRepositoryTable.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="CreateUserTable.usql.cs">
+      <DependentUpon>CreateUserTable.usql</DependentUpon>
     </ScriptCode>
     <ScriptCode Include="GithubUserExtract.usql.cs">
       <DependentUpon>GithubUserExtract.usql</DependentUpon>

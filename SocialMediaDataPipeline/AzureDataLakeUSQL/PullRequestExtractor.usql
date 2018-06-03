@@ -3,8 +3,12 @@ REFERENCE ASSEMBLY AzureDataLakeUDO;
 REFERENCE ASSEMBLY Octokit;
 REFERENCE ASSEMBLY [Newtonsoft.Json];
 
-DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/PullRequest";
-DECLARE @output string = @"/Github/PullRequest.csv";
+DECLARE @inputRaw string = @"adl://socialmediaadls.azuredatalakestore.net/SocialMedia/Github/20180519/PullRequest";
+
+DECLARE @partition DateTime = DateTime.UtcNow;
+
+ALTER TABLE Github.dbo.PullRequest
+ADD IF NOT EXISTS PARTITION(@partition);
 @raw =
     EXTRACT 
  assignee int?,
@@ -42,10 +46,13 @@ number int,
 requestedReviewers string
     FROM @inputRaw
     USING new AzureDataLakeUDO.GithubPullRequestExtractor(Encoding.UTF8);
-
-OUTPUT @raw
-TO @output
-USING Outputters.Csv();
+INSERT INTO Github.dbo.PullRequest
+PARTITION
+(
+    @partition
+)
+SELECT *
+FROM @raw;
 
 
     

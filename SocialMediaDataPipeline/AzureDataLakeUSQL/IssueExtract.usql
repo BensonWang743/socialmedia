@@ -3,8 +3,12 @@ REFERENCE ASSEMBLY AzureDataLakeUDO;
 REFERENCE ASSEMBLY Octokit;
 REFERENCE ASSEMBLY [Newtonsoft.Json];
 
-DECLARE @inputRaw string = @"/SocialMedia/Github/2018051719/Issue";
-DECLARE @output string = @"/Github/Issue.csv";
+DECLARE @inputRaw string = @"adl://socialmediaadls.azuredatalakestore.net/SocialMedia/Github/20180519/Issue";
+
+DECLARE @partition DateTime = DateTime.UtcNow;
+
+ALTER TABLE Github.dbo.Issue
+ADD IF NOT EXISTS PARTITION(@partition);
 @raw =
     EXTRACT 
  locked bool,
@@ -34,9 +38,15 @@ reactions string
     FROM @inputRaw
     USING new AzureDataLakeUDO.GithubIssueExtractor(Encoding.UTF8);
 
-OUTPUT @raw
-TO @output
-USING Outputters.Csv();
+INSERT INTO Github.dbo.Issue
+PARTITION
+(
+    @partition
+)
+SELECT *
+FROM @raw;
+
+
 
 
     

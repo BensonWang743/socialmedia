@@ -1,16 +1,8 @@
 ﻿
-REFERENCE ASSEMBLY AzureDataLakeUDO;
-REFERENCE ASSEMBLY Octokit;
-REFERENCE ASSEMBLY [Newtonsoft.Json];
 
-DECLARE @inputRaw string = @"adl://socialmediaadls.azuredatalakestore.net/SocialMedia/Github/20180519/Repository";
-DECLARE @partition DateTime = DateTime.UtcNow;
-
-ALTER TABLE Github.dbo.Repository
-ADD IF NOT EXISTS PARTITION(@partition);
-@raw =
-    EXTRACT 
- openIssuesCount int,
+CREATE TABLE dbo.Repository
+(
+     openIssuesCount int,
 pushedAt DateTime?,
 createdAt DateTime,
 updatedAt DateTime,
@@ -51,21 +43,10 @@ homepage string,
 language string,
 [private] bool,
 subscribersCount int,
-size long
-    FROM @inputRaw
-    USING new AzureDataLakeUDO.GithubRepositoryExtractor(Encoding.UTF8);
-
-
-
-INSERT INTO Github.dbo.Repository
-PARTITION
-(
-    @partition
+size long,
+ingestdatatime DateTime,
+    INDEX clx_RepoId CLUSTERED(id)
 )
-SELECT *
-FROM @raw;
-
-
-
-
-    
+PARTITIONED BY (ingestdatatime)
+DISTRIBUTED BY HASH (id) 
+INTO 100;

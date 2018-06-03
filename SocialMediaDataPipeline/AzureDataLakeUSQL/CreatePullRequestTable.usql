@@ -1,0 +1,43 @@
+﻿
+
+CREATE TABLE dbo.PullRequest
+(
+     assignee int?,
+assignees string,
+milestone string,
+merged bool,
+mergeable bool?,
+mergeableState string,
+mergeCommitSHA string,
+userId int?,
+comments int,
+commits int,
+additions int,
+deletions int,
+changedFiles int,
+mergedBy int?,
+[base] string,
+mergedAt DateTime?,
+locked bool,
+id long,
+url string,
+htmlUrl string,
+diffUrl string,
+patchUrl string,
+issueUrl string,
+head string,
+statusesUrl string,
+state string,
+title string,
+body string,
+createdAt DateTime,
+updatedAt DateTime,
+closedAt DateTime?,
+number int,
+requestedReviewers string,
+ingestdatatime DateTime,
+    INDEX clx_Id CLUSTERED(id)
+)
+PARTITIONED BY (ingestdatatime)
+DISTRIBUTED BY HASH (id) 
+INTO 100;
